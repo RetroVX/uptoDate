@@ -74,7 +74,7 @@ startID.textContent = 'Start Time: ' + utDate.timeString();
 setInterval(function(){
  
     // update title
-    title.textContent = 'Time utDate ' + utDate.timeString();
+    title.textContent = 'uptoDate ' + utDate.timeString();
 
     if(!isStopped) {
         let update = utDate.update();

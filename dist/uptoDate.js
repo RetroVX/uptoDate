@@ -3,12 +3,13 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.1.0
+ * @version 0.2.0
  */
 function uptoDate() {
 
     this.dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    this.today = new Date();
+    this.today = this.cloneDate(new Date());
+    this._locale = 'default';
 
     // get time started and time stopped
     this.timeStarted;
@@ -17,6 +18,32 @@ function uptoDate() {
     // check to see if the uptoDate countdown is finished
     this.countdownFinished = false;
 
+}
+
+
+/**
+ * cloneDate  
+ * Immutable  
+ * @method uptoDate.cloneDate
+ * @type {function}
+ */
+uptoDate.prototype.cloneDate = function(date) {
+
+    return new Date(date.getTime());
+}
+
+
+/**
+ * setLocale  
+ * chainable function
+ * @method uptoDate.setLocale
+ * @type {function}
+ * @param {string} locale - the locale string to use
+ */
+uptoDate.prototype.setLocale = function(locale) {
+    this._locale = locale;
+
+    return this;
 }
 
 
@@ -30,7 +57,7 @@ function uptoDate() {
  */
 uptoDate.prototype.dateString = function(date, locale) {
     if(date === undefined || date === null) { date = new Date(); };
-    if(locale === undefined || locale === null) { locale = 'default' };
+    if(locale === undefined || locale === null) { locale = this._locale };
 
     return date.toLocaleDateString(locale, this.dateOptions); 
 }
@@ -46,7 +73,7 @@ uptoDate.prototype.dateString = function(date, locale) {
  */
 uptoDate.prototype.timeString = function(date, locale) {
     if(date === undefined || date === null) { date = new Date(); };
-    if(locale === undefined || locale === null) { locale = 'default' };
+    if(locale === undefined || locale === null) { locale = this._locale };
 
 
     return date.toLocaleTimeString(locale); 
@@ -124,7 +151,10 @@ uptoDate.prototype.formatDate = function(date) {
         shortMonth: this.formatMonth(date, true),
         fullMonth: this.formatMonth(date),
         fullYear: date.getFullYear(),
-        shortYear: shortYear
+        shortYear: shortYear,
+        full: this.dateString(date),
+        iso: date.toISOString(),
+        utc: date.toUTCString()
     }
 
     return dateObj;

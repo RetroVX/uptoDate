@@ -5,6 +5,8 @@ A tiny time and date helper 'library'
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### Features
+* Clone Date
+    * immutable
 * Local Date
     * eg: Sunday, 30 June 2019
 * Local Time
@@ -18,6 +20,8 @@ A tiny time and date helper 'library'
     * eg: 30/6/19
     * eg: Sunday 30 June 2019
 * Format Time
+* Set Locale
+    eg: 'en-US'
 * Time Tracking
     * Start & Stop
 * Countdown
@@ -55,6 +59,35 @@ const utDate = new uptoDate();
 
 ## Examples
 
+### Clone Date
+```javascript
+utDate.cloneDate(date);
+
+// Example:
+// Dates are mutable so if we copy the date variable then edit the copy variable, it changes the date variable!
+// mutable
+const date = new Date(2019, 5, 30, 20, 38);
+const copy = date;
+// add 5 hours to copy
+copy.setHours(copy.getHours() + 5);
+// output
+console.log(date);
+'Mon Jul 01 2019 01:38:00 GMT+0100 (British Summer Time)'
+console.log(copy);
+'Mon Jul 01 2019 01:38:00 GMT+0100 (British Summer Time)'
+
+// immutable way with cloneDate()
+const date = new Date(2019, 5, 30, 20, 38);
+const copy = utDate.cloneDate(date);
+// add 5 hours to copy
+copy.setHours(copy.getHours() + 5);
+// output
+console.log(date);
+'Sun Jun 30 2019 20:38:00 GMT+0100 (British Summer Time)'
+console.log(copy);
+'Mon Jul 01 2019 01:38:00 GMT+0100 (British Summer Time)'
+```
+
 ### Get Date
 ```javascript
 // add optional date or locale ('en-US')
@@ -88,7 +121,8 @@ utDate.formatMonth(date, false);
 // add optional date
 utDate.formatDate(date);
 // returns object
-{ 
+{   
+    full: Sunday, 30 June 2019,
     day: 30, 
     fullDay: Sunday, 
     shortDay: Sun,
@@ -96,7 +130,9 @@ utDate.formatDate(date);
     shortMonth: Jun, 
     fullMonth: June, 
     fullYear: 2019, 
-    shortYear: 19 
+    shortYear: 19,
+    iso: 2019-06-30T20:38:00.000Z,
+    utc: Sun, 30 Jun 2019 20:38:00 GMT
 }
 ```
 
@@ -111,6 +147,14 @@ utDate.formatTime(date);
     seconds: 48,
     ms: 1562011912273
 }
+```
+
+### Set Locale
+```javascript
+utDate.setLocale(locale);
+
+// setLocale is chainable
+utDate.setLocale('en-US').dateString();
 ```
 
 ### Start Time Tracker
@@ -146,7 +190,7 @@ utDate.getTimeDifference(time1, time2);
 // Example
 
 const start = new Date().getTime();
-// after 5 seconds get the time difference between start and date varibles
+// after 5 seconds get the time difference between start and date variables
 setTimeout(function(){
     const date = new Date().getTime();
     utDate.timeDifference(start, date);
@@ -222,4 +266,4 @@ setInterval(function(){
 }, 1000);
 ```
 
-### Version 0.1.0
+### Version 0.2.0

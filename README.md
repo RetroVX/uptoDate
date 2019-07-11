@@ -29,7 +29,7 @@ A tiny time and date helper 'library'
     * eg: 8 minutes ago
 * Time In
     * eg: in 8 minutes
-* ≈4kb minified
+* ≈3kb minified
 * ≈1kb gzip
 
 ### Demo

@@ -15,6 +15,8 @@ A tiny time and date helper 'library'
     * eg: Sunday
 * Get Month
     * eg: June
+* Get Day of Year
+    * eg 179
 * Format Date
     * eg: 30/6/2019
     * eg: 30/6/19
@@ -23,14 +25,15 @@ A tiny time and date helper 'library'
 * Set Locale
     eg: 'en-US'
 * Time Tracking
-    * Start & Stop
+    * Start, Pause, Update & Stop
 * Countdown
 * Time Ago 
     * eg: 8 minutes ago
 * Time In
     * eg: in 8 minutes
-* ≈3kb minified
-* ≈1kb gzip
+* isToday
+* ≈4kb minified
+* ≈1kb minifed & gzipped
 
 ### Demo
 
@@ -116,23 +119,31 @@ utDate.formatMonth(date, false);
 // June || Jun
 ```
 
+### Get Day of Year
+```javascript
+// enter date
+utDate.getDayOfYear(date);
+// 179
+```
+
 ### Format Date
 ```javascript
 // add optional date
 utDate.formatDate(date);
 // returns object
 {   
-    full: Sunday, 30 June 2019,
+    full: 'Sunday, 30 June 2019',
     day: 30, 
-    fullDay: Sunday, 
-    shortDay: Sun,
+    fullDay: 'Sunday', 
+    dayOfYear: 179
+    shortDay: 'Sun',
     month: 6, 
-    shortMonth: Jun, 
-    fullMonth: June, 
+    shortMonth: 'Jun', 
+    fullMonth: 'June', 
     fullYear: 2019, 
     shortYear: 19,
-    iso: 2019-06-30T20:38:00.000Z,
-    utc: Sun, 30 Jun 2019 20:38:00 GMT
+    iso: '2019-06-30T20:38:00.000Z',
+    utc: 'Sun, 30 Jun 2019 20:38:00 GMT'
 }
 ```
 
@@ -163,6 +174,12 @@ utDate.start();
 // returns Date().getTime();
 ```
 
+### Pause Time Tracker
+```javascript
+utDate.pause();
+// returns Date().getTime();
+```
+
 ### Stop Time Tracker
 ```javascript
 utDate.stop();
@@ -170,6 +187,9 @@ utDate.stop();
 // date: new Date();
 // time: { days: 0, hours: 2, minutes: 0, seconds: 0}
 // string: ' 0 Days 2 Hours 0 Minutes 0 Seconds'
+// will only return the string if the tracker has been paused
+// pausedString: ' 0 Days 0 Hours 0 Minutes 0 Seconds'
+// paused: { days: 0, hours: 0, minutes: 0, seconds: 0}
 ```
 
 ### Update Time Tracker
@@ -179,6 +199,9 @@ utDate.update();
 // date: new Date();
 // time: { days: 0, hours: 2, minutes: 0, seconds: 0}
 // string: ' 0 Days 2 Hours 0 Minutes 0 Seconds'
+// will only return the string if the tracker has been paused
+// pausedString: ' 0 Days 0 Hours 0 Minutes 0 Seconds'
+// paused: { days: 0, hours: 0, minutes: 0, seconds: 0}
 ```
 
 ### Get Time Difference
@@ -246,6 +269,20 @@ utDate.timeIn(time);
 // returns 'in 5 minutes';
 ```
 
+### isToday
+```javascript
+// input date
+utDate.isToday(date);
+
+// Example
+const randomDate = new Date(2005, 1, 6);
+utDate.isToday(randomDate);
+// returns false
+
+utDate.isToday(new Date());
+// returns true
+```
+
 ### Basic Example
 ```javascript
 const utDate = new uptoDate();
@@ -266,4 +303,4 @@ setInterval(function(){
 }, 1000);
 ```
 
-### Version 0.2.0
+### Version 0.3.0

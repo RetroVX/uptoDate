@@ -1,5 +1,19 @@
 UptoDate Changelog
 
+### Version 0.3.0
+
+* pause
+    * new pause function for the tracker
+* tracker now outputs time paused with overall time
+    * 0 days, 2 hours, 0 minutes, 0 seconds
+* isToday
+    * returns boolean to check if entered date is today
+* getDayOfYear
+    * returns day since the start of the year
+* formatDate
+    * dayOfYear added
+* replaced the Array.find methods with Array.forEach for IE 11 support
+
 ### Version 0.2.0
 
 * setLocale

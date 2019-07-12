@@ -3,7 +3,7 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.2.0
+ * @version 0.3.0
  */
 function uptoDate() {
 
@@ -14,6 +14,7 @@ function uptoDate() {
     // get time started and time stopped
     this.timeStarted;
     this.timeCurrent;
+    this.timePaused;
 
     // check to see if the uptoDate countdown is finished
     this.countdownFinished = false;
@@ -95,8 +96,9 @@ uptoDate.prototype.formatDay = function(date, short) {
     const day = date.getDay();
     const dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-    const findDay = dayArray.find(function(d, index) {
-        if(index === day) { return d };
+    let findDay;
+    dayArray.forEach(function(d, index) {
+        if(index === day) { return findDay = d };
     })
 
     if(short) { return findDay.slice(0, 3); }
@@ -119,12 +121,35 @@ uptoDate.prototype.formatMonth = function(date, short) {
     const month = date.getMonth();
     const monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    const findMonth = monthArray.find(function(m, index) {
-        if(index === month) { return m };
+    let findMonth;
+    monthArray.forEach(function(m, index) {
+        if(index === month) { return findMonth = m };
     });
 
     if(short) { return findMonth.slice(0, 3); }
     else { return findMonth; }
+}
+
+
+/**
+ * getDayOfYear 
+ * @method uptoDate.getDayOfYear
+ * @type {function}
+ * @param {*} [date='new Date()'] - optional input of date.
+ * @returns return day in year eg 192
+ */
+uptoDate.prototype.getDayOfYear = function(date) {
+    // start of this year
+    const startOfyear = new Date(new Date().getFullYear(), 0, 1);
+
+    // clone date entered
+    const newDate = this.cloneDate(date);
+
+    // get the difference between the start of the year and todays date
+    const td = this.getTimeDifference(startOfyear, newDate);
+
+    // return the difference in days
+    return td.days;
 }
 
 
@@ -147,6 +172,7 @@ uptoDate.prototype.formatDate = function(date) {
         day: date.getDate(),
         fullDay: this.formatDay(date),
         shortDay: this.formatDay(date, true),
+        dayOfYear: this.getDayOfYear(date),
         month: date.getMonth(),
         shortMonth: this.formatMonth(date, true),
         fullMonth: this.formatMonth(date),
@@ -217,14 +243,26 @@ uptoDate.prototype.update = function() {
     // get the time difference between start and stop
     const difference = this.getTimeDifference();
 
+    // get difference if tracker is paused
+    const pauseDiff = this.getTimeDifference(this.timePaused, this.timeCurrent);
+
     const timeObj = {
         date: date,
         time: difference,
-        string: difference.days + ' Days ' + difference.hours + ' Hours ' + difference.minutes + ' Minutes ' + difference.seconds + ' Seconds '
+        paused: pauseDiff,
+        string: difference.days + ' Days ' + difference.hours + ' Hours ' + difference.minutes + ' Minutes ' + difference.seconds + ' Seconds ',
+        pausedString: pauseDiff.days + ' Days ' + pauseDiff.hours + ' Hours ' + pauseDiff.minutes + ' Minutes ' + pauseDiff.seconds + ' Seconds ',
     }
     
     return timeObj;
 
+}
+
+
+uptoDate.prototype.pause = function() {
+    this.timePaused = new Date().getTime();
+
+    return this.timePaused;
 }
 
 
@@ -239,6 +277,7 @@ uptoDate.prototype.stop = function() {
     const stopObj = this.update();
     this.timeStarted = null;
     this.timeCurrent = null;
+    this.timePaused = null;
 
     return stopObj;
 }
@@ -393,4 +432,26 @@ uptoDate.prototype.timeIn = function(time) {
     else { timein = 'Now'}
 
     return timein;
+}
+
+
+/**
+ * isToday     
+ * Helper function to check if entered date is today
+ * @method uptoDate.isToday
+ * @type {function}
+ * @param {*} date - date to check against
+ * @returns boolean
+ */
+uptoDate.prototype.isToday = function(date) {
+    // get todays date
+    const todayDate = new Date();
+
+    // get a copy of the entered date
+    const newDate = this.cloneDate(date);
+
+    const td = this.getTimeDifference(newDate, todayDate);
+
+    if(td.days === 0) { return true; }
+    else { return false; }
 }

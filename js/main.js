@@ -3,7 +3,6 @@
  */
 
 // start the utDate
-// DTM
 const utDate = new uptoDate();
 const start = utDate.start();
 

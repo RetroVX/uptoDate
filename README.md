@@ -7,6 +7,8 @@ A tiny time and date helper 'library'
 ### Features
 * Clone Date
     * immutable
+* Add / Subtract
+    * Days, Hours, Minutes, Seconds, Milliseconds
 * Local Date
     * eg: Sunday, 30 June 2019
 * Local Time
@@ -32,7 +34,7 @@ A tiny time and date helper 'library'
 * Time In
     * eg: in 8 minutes
 * isToday
-* ≈4kb minified
+* ≈5kb minified
 * ≈1kb minifed & gzipped
 
 ### Demo
@@ -89,6 +91,22 @@ console.log(date);
 'Sun Jun 30 2019 20:38:00 GMT+0100 (British Summer Time)'
 console.log(copy);
 'Mon Jul 01 2019 01:38:00 GMT+0100 (British Summer Time)'
+```
+
+### Modify Days, Hours, Minutes, Seconds Or Milliseconds
+
+#### Add
+```javascript
+// date is optional
+utDate.add('hours', 3, date);
+// Sun Jun 30 2019 23:38:00 GMT+0100 (British Summer Time)
+```
+
+#### Subtract
+```javascript
+// date is optional
+utDate.subtract('hours', 3, date);
+// Sun Jun 30 2019 17:38:00 GMT+0100 (British Summer Time)
 ```
 
 ### Get Date
@@ -303,4 +321,4 @@ setInterval(function(){
 }, 1000);
 ```
 
-### Version 0.3.0
+### Version 0.4.0

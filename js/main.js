@@ -14,7 +14,7 @@ const cSeconds = newDate.getSeconds();
 
 // init 5 minutes for timeIn
 const newDateIn = new Date();
-const dateIn = newDateIn.setMinutes(newDateIn.getMinutes() + 5);
+const dateIn = utDate.add('minutes', 5, newDateIn);
 
 // get ids to populate
 // title tag

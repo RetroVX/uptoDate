@@ -1,5 +1,16 @@
 UptoDate Changelog
 
+### Version 0.4.0
+
+* add
+    * days, hours, minutes, seconds, milliseconds
+* subtract
+    * days, hours, minutes, seconds, milliseconds
+* modify
+    * modify allows adding, subtracting, multiplying and dividing dates and times
+* depreciating tracker functions before version 1.0.0
+    * should be remade as an example instead.
+
 ### Version 0.3.0
 
 * pause

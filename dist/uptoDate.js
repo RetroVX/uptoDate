@@ -3,7 +3,7 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.3.0
+ * @version 0.4.0
  */
 function uptoDate() {
 
@@ -18,6 +18,14 @@ function uptoDate() {
 
     // check to see if the uptoDate countdown is finished
     this.countdownFinished = false;
+
+    // operaters
+    this.operators = {
+        '+': function(a, b) { return a + b },
+        '-': function(a, b) { return a - b },
+        '*': function(a, b) { return a * b },
+        '/': function(a, b) { return a / b }
+    };
 
 }
 
@@ -205,6 +213,70 @@ uptoDate.prototype.formatTime = function(date) {
     }
 
     return timeObj;
+}
+
+
+/**
+ * add  
+ * Add days, weeks, hours, minutes, seconds or milliseconds to a date
+ * @method uptoDate.add
+ * @type {function}
+ * @param {string} string - 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
+ * @param {number} number - number to add
+ * @param {*} date - optional date to use.
+ * @returns {number} returns date with added values
+ */
+uptoDate.prototype.add = function(string, number, date) {
+
+    return this.modify('+', string, number, date);
+
+}
+
+
+/**
+ * subtract  
+ * Subtract days, weeks, hours, minutes, seconds or milliseconds to a date
+ * @method uptoDate.subtract
+ * @type {function}
+ * @param {string} string - 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
+ * @param {number} number - number to subtract by
+ * @param {*} date - optional date to use.
+ * @returns {number} returns date with subtracted values
+ */
+uptoDate.prototype.subtract = function(string, number, date) {
+
+    return this.modify('-', string, number, date);
+
+}
+
+
+/**
+ * modify  
+ * More of an internal function to bundle the logic for add, subtract, multiply, divide
+ * @method uptoDate.modify
+ * @type {function}
+ * @param {string} op - math operator to use
+ * @param {string} string - 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
+ * @param {number} number - number to add
+ * @param {*} date - optional date to use.
+ * @returns {number} returns date with added values
+ */
+uptoDate.prototype.modify = function(op, string, number, date) {
+
+    if(date === undefined || date === null) { date = new Date(); }
+
+    const newDate = this.cloneDate(date);    
+    const operaters = this.operators;
+
+
+    if(string === 'days') { newDate.setDate(operaters[op](newDate.getDate(), number)); }
+    else if(string === 'hours') { newDate.setHours(operaters[op](newDate.getHours(), number)); }
+    else if(string === 'minutes') { newDate.setMinutes(operaters[op](newDate.getMinutes(), number)); }
+    else if(string === 'seconds') { newDate.setSeconds(operaters[op](newDate.getSeconds(), number)); }
+    else if(string === 'milliseconds') { newDate.setMilliseconds(operaters[op](newDate.getMilliseconds(), number)); }
+
+    return newDate;
+
 }
 
 

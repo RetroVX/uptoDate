@@ -4,6 +4,8 @@
 
 // start the utDate
 const utDate = new uptoDate();
+utDate.addPlugin(timeTrackerPlugin);
+
 const start = utDate.start();
 
 // init countdown for 5 minutes 

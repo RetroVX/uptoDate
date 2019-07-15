@@ -3,8 +3,10 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.4.0
+ * @version 0.5.0
  */
+'use strict';
+
 function uptoDate() {
 
     this.dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -23,8 +25,6 @@ function uptoDate() {
     this.operators = {
         '+': function(a, b) { return a + b },
         '-': function(a, b) { return a - b },
-        '*': function(a, b) { return a * b },
-        '/': function(a, b) { return a / b }
     };
 
 }
@@ -39,6 +39,21 @@ function uptoDate() {
 uptoDate.prototype.cloneDate = function(date) {
 
     return new Date(date.getTime());
+}
+
+
+/**
+ * addPlugin    
+ * extend uptoDate with a custom plugin
+ * @method uptoDate.addPlugin
+ * @type {function}
+ * @param {function} plugin - the plugin to install
+ * @param {*} options - optional options for the plugin
+ */
+uptoDate.prototype.addPlugin = function(plugin, options) {
+    plugin(uptoDate, options);
+
+    return this;
 }
 
 
@@ -277,81 +292,6 @@ uptoDate.prototype.modify = function(op, string, number, date) {
 
     return newDate;
 
-}
-
-
-/**
- * start  
- * Get the time now, if started task
- * @method uptoDate.start
- * @type {function}
- * @returns {number} returns Date().getTime();
- */
-uptoDate.prototype.start = function() {
-
-    // update timestarted with current time
-    this.timeStarted = new Date().getTime();
-
-    return this.timeStarted;
-    
-}
-
-
-/**
- * update  
- * Get time updated so we can get difference between start and current
- * @method uptoDate.update
- * @type {function}
- * @returns {object} - returns the updated time and date object
- */
-uptoDate.prototype.update = function() {
-
-    // get date
-    const date = new Date();
-
-    // update time stopped with current time
-    this.timeCurrent = date.getTime();
-
-    // get the time difference between start and stop
-    const difference = this.getTimeDifference();
-
-    // get difference if tracker is paused
-    const pauseDiff = this.getTimeDifference(this.timePaused, this.timeCurrent);
-
-    const timeObj = {
-        date: date,
-        time: difference,
-        paused: pauseDiff,
-        string: difference.days + ' Days ' + difference.hours + ' Hours ' + difference.minutes + ' Minutes ' + difference.seconds + ' Seconds ',
-        pausedString: pauseDiff.days + ' Days ' + pauseDiff.hours + ' Hours ' + pauseDiff.minutes + ' Minutes ' + pauseDiff.seconds + ' Seconds ',
-    }
-    
-    return timeObj;
-
-}
-
-
-uptoDate.prototype.pause = function() {
-    this.timePaused = new Date().getTime();
-
-    return this.timePaused;
-}
-
-
-/**
- * stop  
- * run update and return the date and time. 
- * @method uptoDate.stop
- * @type {function} 
- * @returns {object} - returns the stopped time and date object
- */
-uptoDate.prototype.stop = function() {
-    const stopObj = this.update();
-    this.timeStarted = null;
-    this.timeCurrent = null;
-    this.timePaused = null;
-
-    return stopObj;
 }
 
 

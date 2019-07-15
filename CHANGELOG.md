@@ -1,5 +1,13 @@
 UptoDate Changelog
 
+### Version 0.5.0
+
+* created an extendable plugin system so the core api stays small.
+    * example template inside the plugin folder
+* addPlugin
+    * plugins to add or overide uptoDate methods
+* created time tracker as an optional plugin instead of removing
+
 ### Version 0.4.0
 
 * add
@@ -9,7 +17,7 @@ UptoDate Changelog
 * modify
     * modify allows adding, subtracting, multiplying and dividing dates and times
 * depreciating tracker functions before version 1.0.0
-    * should be remade as an example instead.
+    * should be remade as an example or plugin instead.
 
 ### Version 0.3.0
 

@@ -26,14 +26,14 @@ A tiny time and date helper 'library'
 * Format Time
 * Set Locale
     eg: 'en-US'
-* Time Tracking
-    * Start, Pause, Update & Stop
 * Countdown
 * Time Ago 
     * eg: 8 minutes ago
 * Time In
     * eg: in 8 minutes
 * isToday
+* Plugin system
+    * extend uptoDate with your own custom plugins
 * ≈5kb minified
 * ≈1kb minifed & gzipped
 
@@ -186,46 +186,9 @@ utDate.setLocale(locale);
 utDate.setLocale('en-US').dateString();
 ```
 
-### Start Time Tracker
-```javascript
-utDate.start();
-// returns Date().getTime();
-```
-
-### Pause Time Tracker
-```javascript
-utDate.pause();
-// returns Date().getTime();
-```
-
-### Stop Time Tracker
-```javascript
-utDate.stop();
-// returns object with stopped time values
-// date: new Date();
-// time: { days: 0, hours: 2, minutes: 0, seconds: 0}
-// string: ' 0 Days 2 Hours 0 Minutes 0 Seconds'
-// will only return the string if the tracker has been paused
-// pausedString: ' 0 Days 0 Hours 0 Minutes 0 Seconds'
-// paused: { days: 0, hours: 0, minutes: 0, seconds: 0}
-```
-
-### Update Time Tracker
-```javascript
-utDate.update();
-// returns object with updated time values
-// date: new Date();
-// time: { days: 0, hours: 2, minutes: 0, seconds: 0}
-// string: ' 0 Days 2 Hours 0 Minutes 0 Seconds'
-// will only return the string if the tracker has been paused
-// pausedString: ' 0 Days 0 Hours 0 Minutes 0 Seconds'
-// paused: { days: 0, hours: 0, minutes: 0, seconds: 0}
-```
-
 ### Get Time Difference
 ```javascript
 // input start time and end time using Date().getTime() format;
-// used internally for the update(); and countdown();
 utDate.getTimeDifference(time1, time2);
 
 // Example
@@ -301,18 +264,28 @@ utDate.isToday(new Date());
 // returns true
 ```
 
+### Add Plugin
+HTML
+```html
+<!-- Make sure the plugin is added after uptoDate.js-->
+<script type="text/javascript" src="path/to/plugin.js"></script>
+```
+Javascript
+```javascript
+// options is optional
+utDate.addPlugin(yourPluginName, options);
+```
+
+Look inside the plugin folder to find a plugin template :)
+
 ### Basic Example
 ```javascript
 const utDate = new uptoDate();
 
-// start the tracker
-const start = utDate.start();
+const start = new Date();
 
-// run every second
+// run every second (not accurate)
 setInterval(function(){
-    // update the tracker, returns object with time passed
-    utDate.update();
-
     // countdown to 8pm, returns object with time passed
     utDate.countdown(20, 0, 0);
 
@@ -321,4 +294,4 @@ setInterval(function(){
 }, 1000);
 ```
 
-### Version 0.4.0
+### Version 0.5.0

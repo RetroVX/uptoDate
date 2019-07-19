@@ -9,6 +9,10 @@
 
 function timeTrackerPlugin(uptoDate, options) {
 
+    // get time started and time stopped
+    uptoDate.timeStarted;
+    uptoDate.timeCurrent;
+    uptoDate.timePaused;
 
     /**
      * start  

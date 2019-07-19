@@ -4,15 +4,9 @@
 
 // start the utDate
 const utDate = new uptoDate();
-utDate.addPlugin(timeTrackerPlugin);
+utDate.addPlugin([timeTrackerPlugin, countdownPlugin]);
 
 const start = utDate.start();
-
-// init countdown for 5 minutes 
-const newDate = new Date();
-const cHours = newDate.getHours();
-const cMinutes = newDate.getMinutes() + 5;
-const cSeconds = newDate.getSeconds();
 
 // init 5 minutes for timeIn
 const newDateIn = new Date();
@@ -40,7 +34,7 @@ dateID.addEventListener("mouseover", function(event) {
     event.target.textContent = 'utDate.getLocalDate();';
 }, false);
 dateID.addEventListener("mouseout", function(event) {
-    event.target.textContent = utDate.dateString();
+    event.target.textContent = utDate.getLocalDate();
 }, false);
 
 // time
@@ -50,7 +44,7 @@ timeID.addEventListener("mouseover", function(event) {
     event.target.textContent = 'utDate.getLocalTime();';
 }, false);
 timeID.addEventListener("mouseout", function(event) {
-    event.target.textContent = utDate.timeString();
+    event.target.textContent = utDate.getLocalTime();
 }, false);
 
 let startID = document.getElementById('start');
@@ -66,24 +60,24 @@ let isStopped = false;
 let timeinCheck = false;
 
 // set date & time
-dateID.textContent = utDate.dateString();
-timeID.textContent = utDate.timeString();
+dateID.textContent = utDate.getLocalDate();
+timeID.textContent = utDate.getLocalTime();
 
 // start time
-startID.textContent = 'Start Time: ' + utDate.timeString();
+startID.textContent = 'Start Time: ' + utDate.getLocalTime();
 
 // update current time every second
 setInterval(function(){
  
     // update title
-    title.textContent = 'uptoDate ' + utDate.timeString();
+    title.textContent = 'uptoDate ' + utDate.getLocalTime();
 
     if(!isStopped) {
         let update = utDate.update();
         timeTID.textContent = update.string;
     }
     // 5 minute countdown example
-    const countdown = utDate.countdown(cHours, cMinutes, cSeconds);
+    const countdown = utDate.countdown(dateIn);
     countdownID.textContent = countdown.string;
 
     // time ago
@@ -108,7 +102,7 @@ buttonID.addEventListener('click', function(){
     if(isStopped) {
         this.textContent = 'STOP';
         utDate.start();
-        startID.textContent = 'Start Time: ' + utDate.timeString();
+        startID.textContent = 'Start Time: ' + utDate.getLocalTime();
         stopID.textContent = 'End Time: ';
         isStopped = false;
     }
@@ -116,6 +110,6 @@ buttonID.addEventListener('click', function(){
         this.textContent = 'START';
         isStopped = true;
         utDate.stop();
-        stopID.textContent = 'End Time: ' + utDate.timeString();
+        stopID.textContent = 'End Time: ' + utDate.getLocalTime();
     }
 })

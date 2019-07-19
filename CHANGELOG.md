@@ -1,48 +1,63 @@
 UptoDate Changelog
 
+### Version 0.6.0
+
+* ```countdown``` re-created as a plugin to keep the core api size small.
+    * instead of entering an hour, minute, second, you now add a date instead.
+* ```addPlugin```
+    * now accepts an array of plugins in the first parameter
+* plugins array which holds references to any plugins installed for uptoDate
+* timezone support for ```getLocalDate``` and ```getLocalTime```
+* ```add```/```subtract```/```modify```
+    * now you can use 'day' || 'days' etc instead of just 'days'
+    * years, months and weeks can now be added or subtracted
+* ```dateString``` has been renamed to ```getLocalDate```
+* ```timeString``` has been renamed to ```getLocalTime```
+* minor clean up of uptoDate.js, Changelog and Readme
+
 ### Version 0.5.0
 
 * created an extendable plugin system so the core api stays small.
     * example template inside the plugin folder
-* addPlugin
+* ```addPlugin```
     * plugins to add or overide uptoDate methods
 * created time tracker as an optional plugin instead of removing
 
 ### Version 0.4.0
 
-* add
+* ```add```
     * days, hours, minutes, seconds, milliseconds
-* subtract
+* ```subtract```
     * days, hours, minutes, seconds, milliseconds
-* modify
+* ```modify```
     * modify allows adding, subtracting, multiplying and dividing dates and times
 * depreciating tracker functions before version 1.0.0
     * should be remade as an example or plugin instead.
 
 ### Version 0.3.0
 
-* pause
+* ```pause```
     * new pause function for the tracker
 * tracker now outputs time paused with overall time
     * 0 days, 2 hours, 0 minutes, 0 seconds
-* isToday
+* ```isToday```
     * returns boolean to check if entered date is today
-* getDayOfYear
+* ```getDayOfYear```
     * returns day since the start of the year
-* formatDate
+* ```formatDate```
     * dayOfYear added
 * replaced the Array.find methods with Array.forEach for IE 11 support
 
 ### Version 0.2.0
 
-* setLocale
+* ```setLocale```
     * chainable
-* formatDate
+* ```formatDate```
     * new objects -
     * iso
     * utc
     * full
-* cloneDate
+* ```cloneDate```
     * immutable clone
 
 ### Version 0.1.0

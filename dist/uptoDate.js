@@ -3,29 +3,26 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.5.0
+ * @version 0.6.0
  */
 'use strict';
 
 function uptoDate() {
 
     this.dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    this.today = this.cloneDate(new Date());
+    this.today = new Date();
     this._locale = 'default';
 
-    // get time started and time stopped
-    this.timeStarted;
-    this.timeCurrent;
-    this.timePaused;
-
-    // check to see if the uptoDate countdown is finished
-    this.countdownFinished = false;
-
-    // operaters
+    // operaters for uptoDate.modify
     this.operators = {
         '+': function(a, b) { return a + b },
         '-': function(a, b) { return a - b },
+        '*': function(a, b) { return a * b },
+        '/': function(a, b) { return a / b },
     };
+
+    // plugins, holds a reference to plugins installed
+    this.plugins = [];
 
 }
 
@@ -44,14 +41,24 @@ uptoDate.prototype.cloneDate = function(date) {
 
 /**
  * addPlugin    
- * extend uptoDate with a custom plugin
+ * extend uptoDate with a custom plugin/s
  * @method uptoDate.addPlugin
  * @type {function}
- * @param {function} plugin - the plugin to install
+ * @param {function} plugin - the plugin or array of plugins to install
  * @param {*} options - optional options for the plugin
  */
 uptoDate.prototype.addPlugin = function(plugin, options) {
-    plugin(uptoDate, options);
+    if(Array.isArray(plugin)) { 
+
+        plugin.forEach(function(p, index){
+            p(uptoDate, options);
+            this.plugins.push({plugin: p, name: p.name});
+        }, this)
+    }
+    else {
+        plugin(uptoDate, options);
+        this.plugins.push({plugin: plugin, name: plugin.name});
+    }
 
     return this;
 }
@@ -72,35 +79,37 @@ uptoDate.prototype.setLocale = function(locale) {
 
 
 /**
- * dateString  
- * @method uptoDate.dateString
+ * getLocalDate    
+ * @method uptoDate.getLocalDate
  * @type {function}
  * @param {*} [date='new Date()'] - optional input of date.
  * @param {string} [locale='default'] - optional input of locale. Eg: 'en-US'
  * @returns return the local date string for date entered
  */
-uptoDate.prototype.dateString = function(date, locale) {
+uptoDate.prototype.getLocalDate = function(date, locale, timezone) {
     if(date === undefined || date === null) { date = new Date(); };
     if(locale === undefined || locale === null) { locale = this._locale };
+
+    this.dateOptions.timeZone = timezone;
 
     return date.toLocaleDateString(locale, this.dateOptions); 
 }
 
 
 /**
- * timeString  
- * @method uptoDate.timeString
+ * getLocalTime  
+ * @method uptoDate.getLocalTime
  * @type {function}
  * @param {*} [date='new Date()'] - optional input of date.
  * @param {string} [locale='default'] - optional input of locale. Eg: 'en-US'
  * @returns return the local time string from date entered 
  */
-uptoDate.prototype.timeString = function(date, locale) {
+uptoDate.prototype.getLocalTime = function(date, locale, timezone) {
     if(date === undefined || date === null) { date = new Date(); };
     if(locale === undefined || locale === null) { locale = this._locale };
 
 
-    return date.toLocaleTimeString(locale); 
+    return date.toLocaleTimeString(locale, {timeZone: timezone}); 
 }
 
 
@@ -201,7 +210,7 @@ uptoDate.prototype.formatDate = function(date) {
         fullMonth: this.formatMonth(date),
         fullYear: date.getFullYear(),
         shortYear: shortYear,
-        full: this.dateString(date),
+        full: this.getLocalDate(date),
         iso: date.toISOString(),
         utc: date.toUTCString()
     }
@@ -283,12 +292,14 @@ uptoDate.prototype.modify = function(op, string, number, date) {
     const newDate = this.cloneDate(date);    
     const operaters = this.operators;
 
-
-    if(string === 'days') { newDate.setDate(operaters[op](newDate.getDate(), number)); }
-    else if(string === 'hours') { newDate.setHours(operaters[op](newDate.getHours(), number)); }
-    else if(string === 'minutes') { newDate.setMinutes(operaters[op](newDate.getMinutes(), number)); }
-    else if(string === 'seconds') { newDate.setSeconds(operaters[op](newDate.getSeconds(), number)); }
-    else if(string === 'milliseconds') { newDate.setMilliseconds(operaters[op](newDate.getMilliseconds(), number)); }
+    if(string === 'year' || string === 'years') { newDate.setFullYear(operaters[op](newDate.getFullYear(), number)) }
+    else if(string === 'month' || string === 'months') { newDate.setMonth(operaters[op](newDate.getMonth(), number)) }
+    else if(string === 'week' || string === 'weeks') { newDate.setDate(operaters[op](newDate.getDate(), (number * 7))); }
+    else if(string === 'day' || string === 'days') { newDate.setDate(operaters[op](newDate.getDate(), number)); }
+    else if(string === 'hour' || string === 'hours') { newDate.setHours(operaters[op](newDate.getHours(), number)); }
+    else if(string === 'minute' || string === 'minutes') { newDate.setMinutes(operaters[op](newDate.getMinutes(), number)); }
+    else if(string === 'second' || string === 'seconds') { newDate.setSeconds(operaters[op](newDate.getSeconds(), number)); }
+    else if(string === 'millisecond' || string === 'milliseconds') { newDate.setMilliseconds(operaters[op](newDate.getMilliseconds(), number)); }
 
     return newDate;
 
@@ -311,6 +322,9 @@ uptoDate.prototype.getTimeDifference = function(start, stop) {
     // get total seconds between the times
     let delta = Math.abs(start - stop) / 1000;
 
+    let weeks = Math.floor(delta / 604800);
+    delta -= weeks * 604800;
+
     // calculate (and subtract) whole days
     let days = Math.floor(delta / 86400);
     delta -= days * 86400;
@@ -327,6 +341,7 @@ uptoDate.prototype.getTimeDifference = function(start, stop) {
     let seconds = delta % 60; 
 
     const timeObj = {
+        weeks: weeks,
         days: days,
         hours: hours,
         minutes: minutes,
@@ -334,52 +349,6 @@ uptoDate.prototype.getTimeDifference = function(start, stop) {
     }
 
     return timeObj;
-}
-
-
-/**
- * countdown  
- * Simple countdown for hours/minutes/seconds
- * @method uptoDate.countdown
- * @type {function}
- * @param {number} hours - the hour of day you want the countdown to end
- * @param {number} minutes - the minute you want the countdown to end
- * @param {number} seconds - the second you want the countdown to end
- * @example
- * // countdown to 8pm
- * .countdown(20, 0, 0);
- */
-
-uptoDate.prototype.countdown = function(hours, minutes, seconds) {
-    // get time now
-    const start = new Date().getTime();
-    // get new date and set time from paramters
-    const countdownDate = new Date();
-    const countdown = countdownDate.setHours(hours, minutes, seconds);
-
-    // get the difference between the start of the countdown and the end time
-    const td = this.getTimeDifference(start, countdown);
-
-    // countdown finished
-    if(td.days === 0 && td.hours === 0 && td.minutes === 0 && td.seconds === 0) {
-        this.countdownFinished = true;
-    }
-
-    if(!this.countdownFinished) {
-        const countdownObj = {
-            time: td,
-            string: td.days + ' Days ' + td.hours + ' Hours ' + td.minutes + ' Minutes ' + td.seconds + ' Seconds '
-        }
-        return countdownObj;
-    }
-    else {
-        const countdownFinishedObj = {
-            string: 'Countdown Finished!',
-        }
-        
-        return countdownFinishedObj;
-    }
-    
 }
 
 

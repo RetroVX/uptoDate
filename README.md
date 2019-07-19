@@ -8,7 +8,7 @@ A tiny time and date helper 'library'
 * Clone Date
     * immutable
 * Add / Subtract
-    * Days, Hours, Minutes, Seconds, Milliseconds
+    * Years, Months, Weeks, Days, Hours, Minutes, Seconds, Milliseconds
 * Local Date
     * eg: Sunday, 30 June 2019
 * Local Time
@@ -26,15 +26,14 @@ A tiny time and date helper 'library'
 * Format Time
 * Set Locale
     eg: 'en-US'
-* Countdown
 * Time Ago 
     * eg: 8 minutes ago
 * Time In
     * eg: in 8 minutes
 * isToday
-* Plugin system
+* Plugin System
     * extend uptoDate with your own custom plugins
-* ≈5kb minified
+* ≈4kb minified
 * ≈1kb minifed & gzipped
 
 ### Demo
@@ -93,7 +92,7 @@ console.log(copy);
 'Mon Jul 01 2019 01:38:00 GMT+0100 (British Summer Time)'
 ```
 
-### Modify Days, Hours, Minutes, Seconds Or Milliseconds
+### Modify Years, Months, Weeks, Days, Hours, Minutes, Seconds Or Milliseconds
 
 #### Add
 ```javascript
@@ -105,21 +104,26 @@ utDate.add('hours', 3, date);
 #### Subtract
 ```javascript
 // date is optional
-utDate.subtract('hours', 3, date);
-// Sun Jun 30 2019 17:38:00 GMT+0100 (British Summer Time)
+utDate.subtract('years', 3, date);
+// Sun Jun 30 2016 20:38:00 GMT+0100 (British Summer Time)
+```
+
+#### String Inputs For Add/Subtract
+```javascript
+'years', 'year', 'months', 'month' 'day', 'days', 'hours', 'hour', 'minutes', 'minute', 'seconds' 'second', 'milliseconds', 'millisecond'
 ```
 
 ### Get Date
 ```javascript
-// add optional date or locale ('en-US')
-utDate.dateString(date, locale);
+// add optional date, locale ('en-US') and/or timezone 
+utDate.getLocalDate(date, locale, timezone);
 // Sunday, 30 June 2019
 ```
 
 ### Get Time
 ```javascript
-// add optional date or locale ('en-US')
-utDate.timeString(date, locale);
+// add optional date, locale ('en-US') and/or timezone 
+utDate.getLocalTime(date, locale, timezone);
 // 20:38:48
 ```
 
@@ -183,7 +187,7 @@ utDate.formatTime(date);
 utDate.setLocale(locale);
 
 // setLocale is chainable
-utDate.setLocale('en-US').dateString();
+utDate.setLocale('en-US').getLocalDate();
 ```
 
 ### Get Time Difference
@@ -201,24 +205,6 @@ setTimeout(function(){
     // returns object with days, hours, minutes and seconds parameters
     // this would output { days: 0, hours: 0, minutes: 0, seconds: 5}
 }, 5000);
-```
-
-### Countdown
-```javascript
-// input time (in 23 hour format) to countdown from
-utDate.countdown(hour, minute, second);
-
-// Example
-
-// the time is 13:00 
-// countdown to 15:00
-// update every second
-setInterval(function(){
-    utDate.countdown(15, 0, 0);
-}, 1000);
-// returns object with two parameters
-// time: { days: 0, hours: 2, minutes: 0, seconds: 0}
-// string: '0 Days 2 Hours 0 Minutes 0 Seconds'
 ```
 
 ### Time Ago
@@ -242,9 +228,8 @@ setTimeout(function(){
 utDate.timeIn(time);
 
 // Example
-const time = new Date();
 // set time 5 mins ahead
-time.setMinutes(time.getMinutes() + 5);
+const time = utDate.add('minutes', 5);
 
 utDate.timeIn(time);
 // returns 'in 5 minutes';
@@ -274,6 +259,9 @@ Javascript
 ```javascript
 // options is optional
 utDate.addPlugin(yourPluginName, options);
+
+// multiple plugins
+utDate.addPlugin([yourPluginName, anotherPlugin], options);
 ```
 
 Look inside the plugin folder to find a plugin template :)
@@ -283,15 +271,19 @@ Look inside the plugin folder to find a plugin template :)
 const utDate = new uptoDate();
 
 const start = new Date();
+const countdownTo = utDate.add('minutes', 5);
 
-// run every second (not accurate)
+// run every second
 setInterval(function(){
-    // countdown to 8pm, returns object with time passed
-    utDate.countdown(20, 0, 0);
+    // the countdown will complete in 5 minutes
+    utDate.countdown(countdownTo);
 
     // time Ago, returns time since started
     utDate.timeAgo(start);
 }, 1000);
 ```
 
-### Version 0.5.0
+### Pre 1.0.0
+Expect breaking changes to the api while under version 1.0.0
+
+### Version 0.6.0

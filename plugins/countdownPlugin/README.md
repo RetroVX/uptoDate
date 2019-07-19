@@ -6,12 +6,9 @@
 utDate.countdown(date, fromDate);
 
 // Example
-
-// the time is 13:00 
-// countdown to 15:00
-// update every second
 const countdownDate = new Date();
 const fromDate = utDate.subtract('hours', 2);
+// update every second
 setInterval(function(){
     utDate.countdown(countdownDate, fromDate);
 }, 1000);

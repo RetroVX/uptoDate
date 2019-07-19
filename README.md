@@ -110,7 +110,7 @@ utDate.subtract('years', 3, date);
 
 #### String Inputs For Add/Subtract
 ```javascript
-'years', 'year', 'months', 'month' 'day', 'days', 'hours', 'hour', 'minutes', 'minute', 'seconds' 'second', 'milliseconds', 'millisecond'
+'years', 'year', 'months', 'month', 'weeks', 'week' 'day', 'days', 'hours', 'hour', 'minutes', 'minute', 'seconds' 'second', 'milliseconds', 'millisecond'
 ```
 
 ### Get Date
@@ -269,6 +269,7 @@ Look inside the plugin folder to find a plugin template :)
 ### Basic Example
 ```javascript
 const utDate = new uptoDate();
+utDate.addPlugin(countdownPlugin);
 
 const start = new Date();
 const countdownTo = utDate.add('minutes', 5);
@@ -286,4 +287,4 @@ setInterval(function(){
 ### Pre 1.0.0
 Expect breaking changes to the api while under version 1.0.0
 
-### Version 0.6.0
+### Version 0.6.1

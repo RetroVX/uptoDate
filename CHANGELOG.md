@@ -1,12 +1,16 @@
 UptoDate Changelog
 
+### Version 0.6.1
+
+* minor bug fixes and corrections
+
 ### Version 0.6.0
 
 * ```countdown``` re-created as a plugin to keep the core api size small.
     * instead of entering an hour, minute, second, you now add a date instead.
 * ```addPlugin```
     * now accepts an array of plugins in the first parameter
-* plugins array which holds references to any plugins installed for uptoDate
+* ```uptoDate.plugins``` array which holds references to any plugins installed for uptoDate
 * timezone support for ```getLocalDate``` and ```getLocalTime```
 * ```add```/```subtract```/```modify```
     * now you can use 'day' || 'days' etc instead of just 'days'

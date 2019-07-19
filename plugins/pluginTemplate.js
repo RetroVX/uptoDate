@@ -6,6 +6,7 @@
  */
 'use strict'
 
+// name of plugin
 function uptoDatePluginTemplate(uptoDate, options) {
 
     // extend uptoDate class example
@@ -15,9 +16,9 @@ function uptoDatePluginTemplate(uptoDate, options) {
     }
 
     // overide existing api example
-    const oldDateString = uptoDate.prototype.dateString;
+    const oldDateString = uptoDate.prototype.getLocalDate;
 
-    uptoDate.prototype.dateString = function(date) {
+    uptoDate.prototype.getLocalDate = function(date) {
 
         const oldResult = oldDateString(date);
 

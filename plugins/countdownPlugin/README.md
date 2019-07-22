@@ -1,5 +1,20 @@
 # Countdown Plugin
 
+* ```450 bytes``` minified
+* ```280 bytes``` minfied & gzipped
+
+### Install
+HTML
+```html
+<!-- Make sure the plugin is added after uptoDate.js-->
+<script type="text/javascript" src="path/to/countdownPlugin.min.js"></script>
+```
+Javascript
+```javascript
+uptoDate.addPlugin(countdownPlugin);
+```
+
+
 ### Countdown
 ```javascript
 // input date to countdown to with an optional from date

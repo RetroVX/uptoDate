@@ -26,14 +26,11 @@ A tiny time and date helper 'library'
 * Format Time
 * Set Locale
     eg: 'en-US'
-* Time Ago 
-    * eg: 8 minutes ago
-* Time In
-    * eg: in 8 minutes
-* isToday
 * Plugin System
     * extend uptoDate with your own custom plugins
-* ≈4kb minified
+    * see the plugin folder for examples
+* ≈3kb minified
+    * without plugins
 * ≈1kb minifed & gzipped
 
 ### Demo
@@ -192,64 +189,24 @@ utDate.setLocale('en-US').getLocalDate();
 
 ### Get Time Difference
 ```javascript
-// input start time and end time using Date().getTime() format;
+// input start time and end time using Date() format;
 utDate.getTimeDifference(time1, time2);
 
 // Example
 
-const start = new Date().getTime();
+const start = new Date();
 // after 5 seconds get the time difference between start and date variables
 setTimeout(function(){
-    const date = new Date().getTime();
+    const date = new Date();
     utDate.timeDifference(start, date);
     // returns object with days, hours, minutes and seconds parameters
     // this would output { days: 0, hours: 0, minutes: 0, seconds: 5}
 }, 5000);
 ```
 
-### Time Ago
-```javascript
-// input Date().getTime() format
-utDate.timeAgo(time);
-
-// Example
-const start = new Date().getTime();
-// after 5 seconds output time ago string
-setTimeout(function(){
-    utDate.timeAgo(start);
-    // ouputs string with 'x time ago'
-    // this would output '5 seconds ago'
-}, 5000);
-```
-
-### Time In
-```javascript
-// input Date().getTime() format
-utDate.timeIn(time);
-
-// Example
-// set time 5 mins ahead
-const time = utDate.add('minutes', 5);
-
-utDate.timeIn(time);
-// returns 'in 5 minutes';
-```
-
-### isToday
-```javascript
-// input date
-utDate.isToday(date);
-
-// Example
-const randomDate = new Date(2005, 1, 6);
-utDate.isToday(randomDate);
-// returns false
-
-utDate.isToday(new Date());
-// returns true
-```
-
 ### Add Plugin
+Look inside the plugins folder to see current plugins. Each one will have a README attached.
+
 HTML
 ```html
 <!-- Make sure the plugin is added after uptoDate.js-->
@@ -264,6 +221,7 @@ utDate.addPlugin(yourPluginName, options);
 utDate.addPlugin([yourPluginName, anotherPlugin], options);
 ```
 
+#### Plugin Template
 Look inside the plugin folder to find a plugin template :)
 
 ### Basic Example
@@ -287,4 +245,4 @@ setInterval(function(){
 ### Pre 1.0.0
 Expect breaking changes to the api while under version 1.0.0
 
-### Version 0.6.1
+### Version 0.7.0

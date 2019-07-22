@@ -1,5 +1,25 @@
 UptoDate Changelog
 
+### Version 0.7.0
+
+* moved ```isToday``` into the ```queryPlugin```
+* moved ```timeAgo``` and ```timeIn``` into a new plugin called ```relativeTimePlugin```
+* new plugin ```queryPlugin```
+    * ```isToday```
+    * ```isYesterday```
+    * ```isTomorrow```
+    * ```isWeekend```
+    * ```isPast```
+    * ```isFuture```
+    * ```isLeapYear```
+    * ```isSame```
+    * ```isBefore```
+    * ```isAfter```
+    * ```isBetween```
+* new plugin ```relativeTimePlugin```
+    * ```timeAgo```
+    * ```timeIn```
+
 ### Version 0.6.1
 
 * minor bug fixes and corrections

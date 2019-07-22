@@ -1,5 +1,19 @@
 # Time Tracker Plugin
 
+* ```770 bytes``` minified
+* ```330 bytes``` minfied & gzipped
+
+### Install
+HTML
+```html
+<!-- Make sure the plugin is added after uptoDate.js-->
+<script type="text/javascript" src="path/to/trackerPlugin.min.js"></script>
+```
+Javascript
+```javascript
+uptoDate.addPlugin(timeTrackerPlugin);
+```
+
 ### Start Time Tracker
 ```javascript
 utDate.start();
@@ -37,3 +51,6 @@ utDate.update();
 ```
 
 ### Version 0.1.0
+
+### Todo
+* Overhaul to make it easier to use

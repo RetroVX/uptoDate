@@ -3,7 +3,7 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.6.1
+ * @version 0.7.0
  */
 'use strict';
 
@@ -245,7 +245,7 @@ uptoDate.prototype.formatTime = function(date) {
  * Add days, weeks, hours, minutes, seconds or milliseconds to a date
  * @method uptoDate.add
  * @type {function}
- * @param {string} string - 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
+ * @param {string} string - 'years' 'months' 'weeks' 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
  * @param {number} number - number to add
  * @param {*} date - optional date to use.
  * @returns {number} returns date with added values
@@ -262,7 +262,7 @@ uptoDate.prototype.add = function(string, number, date) {
  * Subtract days, weeks, hours, minutes, seconds or milliseconds to a date
  * @method uptoDate.subtract
  * @type {function}
- * @param {string} string - 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
+ * @param {string} string - 'years' 'months' 'weeks' 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
  * @param {number} number - number to subtract by
  * @param {*} date - optional date to use.
  * @returns {number} returns date with subtracted values
@@ -280,8 +280,8 @@ uptoDate.prototype.subtract = function(string, number, date) {
  * @method uptoDate.modify
  * @type {function}
  * @param {string} op - math operator to use
- * @param {string} string - 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
- * @param {number} number - number to add
+ * @param {string} string - 'years' 'months' 'weeks' 'days', 'hours', 'minutes', 'seconds' or 'milliseconds'
+ * @param {number} number - number to modify by
  * @param {*} date - optional date to use.
  * @returns {number} returns date with added values
  */
@@ -311,8 +311,8 @@ uptoDate.prototype.modify = function(op, string, number, date) {
  * get the time difference between start and stop times
  * @method uptoDate.getTimeDifference
  * @type {function}
- * @param {*} start - start time from date.getTime()
- * @param {*} stop - stop time from date.getTime()
+ * @param {*} start - start time from date
+ * @param {*} stop - stop time from date
  */
 uptoDate.prototype.getTimeDifference = function(start, stop) {
 
@@ -321,9 +321,6 @@ uptoDate.prototype.getTimeDifference = function(start, stop) {
 
     // get total seconds between the times
     let delta = Math.abs(start - stop) / 1000;
-
-    let weeks = Math.floor(delta / 604800);
-    delta -= weeks * 604800;
 
     // calculate (and subtract) whole days
     let days = Math.floor(delta / 86400);
@@ -341,7 +338,6 @@ uptoDate.prototype.getTimeDifference = function(start, stop) {
     let seconds = delta % 60; 
 
     const timeObj = {
-        weeks: weeks,
         days: days,
         hours: hours,
         minutes: minutes,
@@ -349,90 +345,4 @@ uptoDate.prototype.getTimeDifference = function(start, stop) {
     }
 
     return timeObj;
-}
-
-
-/**
- * timeAgo    
- * get a string with 'x time ago' eg: 5 minutes ago
- * @method uptoDate.timeAgo
- * @type {function}
- * @param {*} time - time to check against (requires Date().getTime() format)
- */
-uptoDate.prototype.timeAgo = function(time) {
-    // get time now
-    const date = new Date().getTime();
-
-    // get the difference between now and time entered
-    const td = this.getTimeDifference(time, date);
-
-    let timeago;
-
-    // update depending on time passed
-    // checks to see if the time is at 1 so it does not display 1 seconds ago etc
-    if(td.days === 1) { timeago = td.days + ' day ago'; }
-    else if(td.days > 1) { timeago = td.days + ' days ago'; }
-    else if(td.hours === 1) { timeago = td.hours + ' hour ago'; }
-    else if(td.hours > 1) { timeago = td.hours + ' hours ago'; }
-    else if(td.minutes === 1) { timeago = td.minutes + ' minute ago'; }
-    else if(td.minutes > 1) { timeago = td.minutes + ' minutes ago'; }
-    else if(td.seconds === 1) { timeago = td.seconds + ' second ago'; }
-    else if(td.seconds > 1) { timeago = td.seconds + ' seconds ago'; }
-    else { timeago = 'Just now'}
-
-    return timeago;
-}
-
-
-/**
- * timeIn     
- * get a string with 'in x time' eg: in 5 minutes
- * @method uptoDate.timeIn
- * @type {function}
- * @param {*} time - time to check against (requires Date().getTime() format)
- */
-uptoDate.prototype.timeIn = function(time) {
-    // get time now
-    const date = new Date().getTime();
-
-    // get the difference between now and time entered
-    const td = this.getTimeDifference(date, time);
-
-    let timein;
-
-    // update depending on time passed
-    // checks to see if the time is at 1 so it does not display in 1 seconds etc
-    if(td.days === 1) { timein = 'in ' + td.days + ' day'; }
-    else if(td.days > 1) { timein = 'in ' + td.days + ' days'; }
-    else if(td.hours === 1) { timein = 'in ' +  td.hours + ' hour'; }
-    else if(td.hours > 1) { timein = 'in ' + td.hours + ' hours'; }
-    else if(td.minutes === 1) { timein = 'in ' + td.minutes + ' minute'; }
-    else if(td.minutes > 1) { timein = 'in ' + td.minutes + ' minutes'; }
-    else if(td.seconds === 1) { timein = 'in ' + td.seconds + ' second'; }
-    else if(td.seconds > 1) { timein = 'in ' + td.seconds + ' seconds'; }
-    else { timein = 'Now'}
-
-    return timein;
-}
-
-
-/**
- * isToday     
- * Helper function to check if entered date is today
- * @method uptoDate.isToday
- * @type {function}
- * @param {*} date - date to check against
- * @returns boolean
- */
-uptoDate.prototype.isToday = function(date) {
-    // get todays date
-    const todayDate = new Date();
-
-    // get a copy of the entered date
-    const newDate = this.cloneDate(date);
-
-    const td = this.getTimeDifference(newDate, todayDate);
-
-    if(td.days === 0) { return true; }
-    else { return false; }
 }

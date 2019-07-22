@@ -3,7 +3,6 @@
  * Helper method when creating a countdown.
  * @param {*} uptoDate - the uptoDate class
  * @param {*} options - optional plugin options
- * @version 0.5.0
  */
 'use strict'
 

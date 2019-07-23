@@ -1,5 +1,14 @@
 UptoDate Changelog
 
+### Version 0.7.1
+
+* new plugin ```startOfPlugin```
+    * ```startOf```
+    * ```startOfDay```
+    * ```startOfWeek```
+    * ```startOfMonth```
+    * ```startOfYear```
+
 ### Version 0.7.0
 
 * moved ```isToday``` into the ```queryPlugin```

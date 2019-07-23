@@ -4,7 +4,7 @@
 
 // start the utDate
 const utDate = new uptoDate();
-utDate.addPlugin([timeTrackerPlugin, countdownPlugin, queryPlugin, relativeTimePlugin]);
+utDate.addPlugin([timeTrackerPlugin, countdownPlugin, queryPlugin, relativeTimePlugin, startOfPlugin]);
 
 const start = utDate.start();
 

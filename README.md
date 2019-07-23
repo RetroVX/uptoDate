@@ -245,4 +245,4 @@ setInterval(function(){
 ### Pre 1.0.0
 Expect breaking changes to the api while under version 1.0.0
 
-### Version 0.7.0
+### Version 0.7.1

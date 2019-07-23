@@ -1,6 +1,5 @@
 /**
  * uptoDate plugin template
- * Inspired by days.js
  * @param {*} uptoDate - the uptoDate class
  * @param {*} options - optional plugin options
  */

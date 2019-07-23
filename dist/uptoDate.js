@@ -3,7 +3,7 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.7.0
+ * @version 0.7.1
  */
 'use strict';
 

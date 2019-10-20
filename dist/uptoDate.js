@@ -3,7 +3,7 @@
  * @license {@link http://opensource.org/licenses/MIT|MIT License}
  * uptoDate
  * A tiny time and date helper 'library' 
- * @version 0.7.1
+ * @version 0.8
  */
 'use strict';
 
@@ -186,6 +186,20 @@ uptoDate.prototype.getDayOfYear = function(date) {
 
 
 /**
+ * getDaysInMonth 
+ * @method uptoDate.getDaysInMonth
+ * @type {function}
+ * @param {*} [date='new Date()'] - optional input of date.
+ * @returns return how many days there are in a month
+ */
+uptoDate.prototype.getDaysInMonth = function(date) {
+    if(date === undefined || date === null) { date = new Date(); }
+
+    return new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+}
+
+
+/**
  * formatDate  
  * @method uptoDate.formatDate
  * @type {function}
@@ -205,10 +219,11 @@ uptoDate.prototype.formatDate = function(date) {
         fullDay: this.formatDay(date),
         shortDay: this.formatDay(date, true),
         dayOfYear: this.getDayOfYear(date),
+        daysInMonth: this.getDaysInMonth(date),
         month: date.getMonth(),
         shortMonth: this.formatMonth(date, true),
         fullMonth: this.formatMonth(date),
-        fullYear: date.getFullYear(),
+        year: date.getFullYear(),
         shortYear: shortYear,
         full: this.getLocalDate(date),
         iso: date.toISOString(),

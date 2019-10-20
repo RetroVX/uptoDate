@@ -2,7 +2,7 @@
 
 A tiny time and date helper 'library'
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ### Features
 * Clone Date
@@ -145,6 +145,12 @@ utDate.getDayOfYear(date);
 // 179
 ```
 
+### Get Days in a Month
+```javascript
+utDate.getDaysInMonth(date);
+// 30
+```
+
 ### Format Date
 ```javascript
 // add optional date
@@ -154,12 +160,13 @@ utDate.formatDate(date);
     full: 'Sunday, 30 June 2019',
     day: 30, 
     fullDay: 'Sunday', 
-    dayOfYear: 179
+    dayOfYear: 179,
+    daysInMonth: 30,
     shortDay: 'Sun',
     month: 6, 
     shortMonth: 'Jun', 
     fullMonth: 'June', 
-    fullYear: 2019, 
+    year: 2019, 
     shortYear: 19,
     iso: '2019-06-30T20:38:00.000Z',
     utc: 'Sun, 30 Jun 2019 20:38:00 GMT'
@@ -245,4 +252,4 @@ setInterval(function(){
 ### Pre 1.0.0
 Expect breaking changes to the api while under version 1.0.0
 
-### Version 0.7.1
+### Version 0.8

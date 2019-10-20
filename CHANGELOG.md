@@ -1,5 +1,12 @@
 UptoDate Changelog
 
+### Version 0.8
+
+* new function ```getDaysInMonth``` that returns the number days in a month
+* ```formatDate```
+    * replaced getFullYear property with year
+    * added daysInMonth property
+
 ### Version 0.7.1
 
 * new plugin ```startOfPlugin```
